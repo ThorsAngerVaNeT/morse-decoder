@@ -37,19 +37,13 @@ const MORSE_TABLE = {
   '-----': '0',
 };
 
-function decode(expr) {
-  const chars = expr.match(/.{1,10}/g);
-  const letters = chars.map(c => {
-    if ('**********' === c) {
-      return ' ';
-    }
-    while (c.charAt(0) === '0') {
-      c = c.substring(1);
-    }
-    return MORSE_TABLE[c.replace(/10/g, '.').replace(/11/g, '-')];
-  });
-  return letters.join('');
-}
+const decode = expr =>
+  expr
+    .match(/.{1,10}/g)
+    .map(c => {
+      return '**********' === c ? ' ' : MORSE_TABLE[c.replace(/00/g, '').replace(/10/g, '.').replace(/11/g, '-')];
+    })
+    .join('');
 
 module.exports = {
   decode,
